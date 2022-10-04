@@ -2,36 +2,20 @@
 <h3>Store</h3>
 
 <div class="row">
+  {% if products_list%} {% for product in products_list %}
   <div class="col-lg-4">
-    <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
+    <img class="thumbnail" src="{{product.image.url}}" />
     <div class="box-element product">
-      <h6><strong>Product</strong></h6>
-      <hr>
+      <h6><strong>{{product.name}}</strong></h6>
+      <hr />
       <button class="btn btn-outline-secondary add-btn">Add to cart</button>
       <a class="btn btn-outline-success" href="#">view</a>
-      <h4 style="float:right" >$20</h4>
+      <h4 style="float: right">${{product.price|floatformat:2}}</h4>
     </div>
   </div>
-  <div class="col-lg-4">
-    <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
-    <div class="box-element product">
-      <h6><strong>Product</strong></h6>
-      <hr>
-      <button class="btn btn-outline-secondary add-btn">Add to cart</button>
-      <a class="btn btn-outline-success" href="#">view</a>
-      <h4 style="float:right" >$20</h4>
-    </div>
-  </div>
-  <div class="col-lg-4">
-    <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
-    <div class="box-element product">
-      <h6><strong>Product</strong></h6>
-      <hr>
-      <button class="btn btn-outline-secondary add-btn">Add to cart</button>
-      <a class="btn btn-outline-success" href="#">view</a>
-      <h4 style="float:right" >$20</h4>
-    </div>
-  </div>
+  {% endfor %} {% else %}
+  <p>Sorry! No items found.</p>
+  {% endif %}
 </div>
 
 {% endblock content %}

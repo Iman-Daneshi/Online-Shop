@@ -3,5 +3,6 @@ psycopg2-binary
 
 python-decouple
 whitenoise
+pillow
 
 django-bootstrap4
