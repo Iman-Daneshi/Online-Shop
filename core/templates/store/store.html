@@ -1,14 +1,13 @@
 {% extends 'index.html' %} {% load static %} {% block content %}
-<h3>Store</h3>
 
-<div class="row">
-  {% if products_list%} {% for product in products_list %}
+<div class="row product-container">
+  {% if products %} {% for product in products %}
   <div class="col-lg-4">
     <img class="thumbnail" src="{{product.image.url}}" />
     <div class="box-element product">
       <h6><strong>{{product.name}}</strong></h6>
       <hr />
-      <button class="btn btn-outline-secondary add-btn">Add to cart</button>
+      <button data-product-id={{product.id}} data-action="add" class="btn btn-outline-secondary update-cart add-btn ">Add to cart</button>
       <a class="btn btn-outline-success" href="#">view</a>
       <h4 style="float: right">${{product.price|floatformat:2}}</h4>
     </div>
