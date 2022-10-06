@@ -14,7 +14,7 @@ class Customer(models.Model):
 
 class Product(models.Model):
   name = models.CharField(max_length=200, null=True)
-  price =models.FloatField()
+  price =models.DecimalField(max_digits=7, decimal_places=2)
   digital=models.BooleanField(default=False, null=True, blank=False)
   image =models.ImageField(upload_to='store/',default = 'store/placeholder.png')
 
@@ -30,6 +30,15 @@ class Order(models.Model):
 
   def __str__(self):
     return str(self.id)
+
+  @property
+  def shipping (self):
+    shipping = False
+    orderitems = self.orderitem_set.all()
+    for item in orderitems:
+      if item.product.digital == False:
+        shipping = True
+    return shipping
 
   @property
   def get_cart_total(self):

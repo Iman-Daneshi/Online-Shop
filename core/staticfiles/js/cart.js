@@ -1,8 +1,5 @@
 const productContainer = document.querySelector('.product-container');
-console.log(productContainer);
-
 const quantity = document.querySelector('.order-container');
-console.log(quantity);
 
 const updateUserOrder = async function (productId, action) {
   url = '/update_item/';
@@ -21,7 +18,6 @@ const updateUserOrder = async function (productId, action) {
 if (quantity) {
   quantity.addEventListener('click', function (e) {
     const btn = e.target.closest('.update-cart');
-    console.log(btn);
     if (!btn) return;
     const { productId, action } = btn.dataset;
     if (user === 'AnonymousUser') console.log('Not logged in');
