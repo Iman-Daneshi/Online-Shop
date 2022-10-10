@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-{% load static %}
-{% load bootstrap4 %}
+{% load static %} {% load bootstrap4 %}
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,28 +8,48 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0 maximum-scale=1, minimum-scale=1"
     />
+
     <title>Ecom</title>
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery='full' %}
+    {% bootstrap_css %} {% bootstrap_javascript jquery='full' %}
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'store:store' %}">Ecom</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'store:store' %}">Store <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{% url 'store:store' %}"
+              >Store <span class="sr-only">(current)</span></a
+            >
           </li>
-          {% comment %} <li class="nav-item">
+          {% comment %}
+          <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
               Dropdown
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -42,46 +61,80 @@
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>
-          </li> {% endcomment %}
+          </li>
+          {% endcomment %}
         </ul>
-        {% comment %} <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form> {% endcomment %}
+        {% comment %}
+        <form class="form-inline my-2 my-lg-0">
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Search
+          </button>
+        </form>
+        {% endcomment %}
         <div class="form-inline my-2 my-lg-0">
-	     	  <a href="#"class="btn btn-warning">Login</a>
-	     	  <a href="{% url 'store:cart' %}">
-	    		  <img  id="cart-icon" src="{% static 'images/cart.png' %}">
+          <a href="#" class="btn btn-warning">Login</a>
+          <a href="{% url 'store:cart' %}">
+            <img id="cart-icon" src="{% static 'images/cart.png' %}" />
           </a>
-	    	<p id="cart-total">{{cartItems}}</p>
-	      </div>
+          <p id="cart-total">{{cartItems}}</p>
+        </div>
       </div>
     </nav>
     <div class="container">
-      <br>
-      {% block content %}
-      {% endblock content %}
+      <br />
+      {% block content %} {% endblock content %}
     </div>
-    <script src="{% static 'js/cart.js'%}"></script>
 
-    <script type="text/javascript"> 
-      const user = '{{request.user}}'
+    <script type="text/javascript">
+      const user = '{{request.user}}';
       function getToken(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + '=') {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
             }
+          }
         }
         return cookieValue;
       }
-      const csrftoken = getToken('csrftoken');
+      let csrftoken = getToken('csrftoken');
+
+      function getCookie(name) {
+        const cookieArr = document.cookie.split(';');
+        for (let i = 0; i < cookieArr.length; i++) {
+          let cookiePair = cookieArr[i].split('=');
+
+          if (name == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+          }
+          
+        }
+        return null
+      }
+
+      let cart = JSON.parse(getCookie('cart'));
+      if (!cart) {
+        cart = {}
+        console.log('cart was created')
+        document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+      }
+    
+      console.log('cart: ', cart);
+      
     </script>
+    <script src="{% static 'js/cart.js'%}"></script>
   </body>
 </html>

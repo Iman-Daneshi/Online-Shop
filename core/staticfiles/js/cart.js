@@ -1,6 +1,8 @@
 const productContainer = document.querySelector('.product-container');
 const quantity = document.querySelector('.order-container');
 
+
+
 const updateUserOrder = async function (productId, action) {
   url = '/update_item/';
   const response = await fetch(url, {
@@ -20,7 +22,7 @@ if (quantity) {
     const btn = e.target.closest('.update-cart');
     if (!btn) return;
     const { productId, action } = btn.dataset;
-    if (user === 'AnonymousUser') console.log('Not logged in');
+    if (user === 'AnonymousUser') addCookieItem(productId, action);
     else {
       updateUserOrder(productId, action);
     }
@@ -36,9 +38,27 @@ if (productContainer) {
     const { productId, action } = btn.dataset;
     console.log(productId, action);
 
-    if (user === 'AnonymousUser') console.log('Not logged in');
+    if (user === 'AnonymousUser') addCookieItem(productId, action);
     else {
       updateUserOrder(productId, action);
     }
   });
+}
+
+function addCookieItem(productId, action) { 
+  console.log('Not logged in');
+  if (action == 'add') {
+    if (cart[productId] == undefined) {
+      cart[productId]={'quantity':1}
+    }else {cart[productId]['quantity']+=1}
+  }
+  if (action == 'remove') {
+    cart[productId]['quantity'] -= 1;
+    if (cart[productId]['quantity'] <= 0) {
+      delete cart[productId]
+    }
+  }
+  document.cookie = 'cart=' + JSON.stringify(cart) + ';domain=;path=/';
+  console.log(cart);
+  location.reload()
 }
